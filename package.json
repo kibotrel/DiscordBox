@@ -1,8 +1,11 @@
 {
   "author": "@kibotrel",
-  "bugs": "",
-  "dependencies": {},
-  "description": "",
+  "bugs": "https://github.com/kibotrel/discordbox/issues",
+  "dependencies": {
+    "chalk": "5.3.0",
+    "discord.js": "14.12.1"
+  },
+  "description": "framework for discord bots",
   "devDependencies": {
     "@commitlint/cli": "17.7.1",
     "@commitlint/config-conventional": "17.7.0",
@@ -38,14 +41,19 @@
   "files": [
     "dist/**/*"
   ],
-  "homepage": "",
+  "homepage": "https://github.com/kibotrel/discordbox#readme",
   "license": "MIT",
-  "keywords": [],
+  "keywords": [
+    "bot",
+    "discord",
+    "discordjs",
+    "framework"
+  ],
   "main": "dist/index.js",
-  "name": "placeholder",
+  "name": "discordbox",
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/kibotrel/discordbox.git"
   },
   "scripts": {
     "build": "tsc",
