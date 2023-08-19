@@ -135,7 +135,7 @@
       {
         "blankLine": "always",
         "prev": "*",
-        "next": ["break", "continue", "return"]
+        "next": ["break", "continue", "return", "block-like"]
       },
       {
         "blankLine": "never",
