@@ -5,8 +5,9 @@ import chalk from 'chalk'
  * @param string - The string to capitalize.
  * @returns The capitalized string.
  */
-export const capitalizeString = (string: string) =>
-  string.charAt(0).toUpperCase() + string.slice(1)
+export const capitalizeString = (string: string) => {
+  return string.charAt(0).toUpperCase() + string.slice(1)
+}
 
 export interface PluralizeStringOptions {
   /**

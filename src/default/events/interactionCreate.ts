@@ -38,7 +38,9 @@ export const interactionCreate = (
         Object.freeze(metadata)
 
         const promptedArguments = Object.entries(commandArguments).map(
-          ([key, value]) => `${key}: ${prettifyVariable(value)}`,
+          ([key, value]) => {
+            return `${key}: ${prettifyVariable(value)}`
+          },
         )
 
         log.info(
@@ -47,9 +49,9 @@ export const interactionCreate = (
           } invoked with ${prettifyList(promptedArguments)}.`,
         )
 
-        const command = commands.find(
-          (handler) => handler.command.name === metadata.commandName,
-        )
+        const command = commands.find((handler) => {
+          return handler.command.name === metadata.commandName
+        })
 
         await command?.callback(interaction, metadata)
       } else if (interaction.isButton()) {

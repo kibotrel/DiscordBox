@@ -166,7 +166,9 @@ export class DiscordBot {
         })} globally...`,
       )
       await discordAPI.put(Routes.applicationCommands(this.clientId), {
-        body: this.handledCommands.map((handler) => handler.command.toJSON()),
+        body: this.handledCommands.map((handler) => {
+          return handler.command.toJSON()
+        }),
       })
     } else if (isDevelopmentEnvironment) {
       if (!this.guildId) {
@@ -184,7 +186,9 @@ export class DiscordBot {
       await discordAPI.put(
         Routes.applicationGuildCommands(this.clientId, this.guildId),
         {
-          body: this.handledCommands.map((handler) => handler.command.toJSON()),
+          body: this.handledCommands.map((handler) => {
+            return handler.command.toJSON()
+          }),
         },
       )
     }
