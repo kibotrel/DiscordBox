@@ -14,7 +14,7 @@
     "importHelpers": true,
     "incremental": true,
     "isolatedModules": true,
-    "lib": ["ESNext"],
+    "lib": ["ESNext", "DOM"],
     "module": "ESNext",
     "moduleResolution": "nodenext",
     "noFallthroughCasesInSwitch": true,

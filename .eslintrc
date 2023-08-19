@@ -1,16 +1,15 @@
 {
   "extends": [
     "eslint:recommended",
-    "plugin:@typescript-eslint/recommended",
     "plugin:unicorn/recommended",
-    "plugin:prettier/recommended",
     "plugin:import/recommended",
     "plugin:promise/recommended",
     "plugin:sonarjs/recommended",
     "plugin:eslint-comments/recommended",
-    "plugin:jsdoc/recommended"
+    "plugin:jsdoc/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended"
   ],
-  "ignorePatterns": ["node_modules/**"],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaVersion": "latest",
@@ -33,14 +32,35 @@
     "@typescript-eslint/consistent-type-exports": "error",
     "@typescript-eslint/consistent-type-imports": "error",
     "@typescript-eslint/no-unused-vars": "error",
+    "arrow-body-style": ["error", "always"],
+    "arrow-parens": ["error", "always"],
+    "arrow-spacing": [
+      "error",
+      {
+        "before": true,
+        "after": true
+      }
+    ],
+    "brace-style": ["error", "1tbs"],
     "camelcase": "off",
+    "comma-dangle": ["error", "always-multiline"],
     "curly": "error",
+    "default-case-last": "error",
+    "default-param-last": "error",
+    "dot-notation": "error",
+    "dot-location": ["error", "property"],
+    "eol-last": ["error", "always"],
     "eqeqeq": "error",
     "eslint-comments/disable-enable-pair": ["warn", { "allowWholeFile": true }],
+    "func-call-spacing": ["error", "never"],
     "import/first": "error",
     "import/newline-after-import": "error",
+    "import/no-amd": "error",
+    "import/no-commonjs": "error",
+    "import/no-deprecated": "error",
     "import/no-duplicates": "error",
     "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
+    "import/no-mutable-exports": "error",
     "import/no-unresolved": "error",
     "import/order": [
       "error",
@@ -63,10 +83,53 @@
     "import/prefer-default-export": "off",
     "jsdoc/require-param-type": "off",
     "jsdoc/require-returns-type": "off",
+    "line-comment-position": ["error", { "position": "above" }],
+    "linebreak-style": ["error", "unix"],
+    "max-depth": ["error", 3],
+    "max-statements-per-line": ["error", { "max": 1 }],
+    "multiline-comment-style": ["error", "starred-block"],
+    "no-alert": "error",
+    "no-caller": "error",
     "no-empty": ["warn", { "allowEmptyCatch": true }],
-    "no-var": "error",
+    "no-empty-function": "error",
+    "no-empty-static-block": "error",
+    "no-eval": "error",
+    "no-extend-native": "error",
+    "no-extra-label": "error",
+    "no-floating-decimal": "error",
+    "no-implicit-coercion": "error",
+    "no-implied-eval": "error",
+    "no-inline-comments": "error",
+    "no-labels": "error",
+    "no-lone-blocks": "error",
+    "no-mixed-operators": "error",
+    "no-multi-assign": "error",
+    "no-multi-str": "error",
+    "no-nested-ternary": "error",
+    "no-new": "error",
+    "no-new-object": "error",
+    "no-new-wrappers": "error",
+    "no-octal-escape": "error",
+    "no-param-reassign": ["error", { "props": true }],
+    "no-proto": "error",
+    "no-script-url": "error",
+    "no-sequences": "error",
     "no-return-assign": "error",
     "no-return-await": "error",
+    "no-throw-literal": "error",
+    "no-trailing-spaces": "error",
+    "no-underscore-dangle": "error",
+    "no-unneeded-ternary": "error",
+    "no-useless-computed-key": "error",
+    "no-var": "error",
+    "object-curly-spacing": [
+      "error",
+      "always",
+      {
+        "arraysInObjects": false,
+        "objectsInObjects": false
+      }
+    ],
     "padding-line-between-statements": [
       "error",
       {
@@ -110,6 +173,7 @@
       { "enforceForRenamedProperties": false }
     ],
     "prefer-promise-reject-errors": ["error", { "allowEmptyReject": false }],
+    "prefer-template": "error",
     "require-await": "error",
     "sonarjs/cognitive-complexity": "off",
     "sonarjs/no-duplicate-string": "off",
@@ -132,15 +196,10 @@
     "unicorn/prevent-abbreviations": [
       "warn",
       { "allowList": { "params": true } }
-    ]
+    ],
+    "yoda": "error"
   },
   "settings": {
-    "import/core-modules": [
-      "node:console",
-      "node:crypto",
-      "node:process",
-      "node:util"
-    ],
     "import/parser": { "@typescript-eslint/parser": [".ts"] },
     "import/resolver": {
       "eslint-import-resolver-custom-alias": {
