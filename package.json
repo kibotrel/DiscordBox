@@ -3,7 +3,8 @@
   "bugs": "https://github.com/kibotrel/discordbox/issues",
   "dependencies": {
     "chalk": "5.3.0",
-    "discord.js": "14.12.1"
+    "discord.js": "14.12.1",
+    "dotenv": "16.3.1"
   },
   "description": "framework for discord bots",
   "devDependencies": {
