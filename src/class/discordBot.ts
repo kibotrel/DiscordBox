@@ -1,5 +1,5 @@
 import type { GatewayIntentBits, Snowflake } from 'discord.js'
-import { Client, Events, REST, Routes } from 'discord.js'
+import { Client, Collection, Events, REST, Routes } from 'discord.js'
 
 import {
   defaultGatewayIntents,
@@ -11,6 +11,7 @@ import {
   pluralizeString,
 } from '../misc/index.js'
 import type {
+  DiscordBotButtonActionHandler,
   DiscordBotCommandHandler,
   DiscordBotEventHandler,
 } from '../types/index.js'
@@ -63,9 +64,13 @@ export class DiscordBot {
    */
   public readonly guildId?: Snowflake
   /**
+   * List of buttons to handle
+   */
+  public handledButtons: Collection<string, DiscordBotButtonActionHandler>
+  /**
    *  List of commands to handle
    */
-  public handledCommands: DiscordBotCommandHandler[]
+  public handledCommands: Collection<string, DiscordBotCommandHandler>
   /**
    *  List of events to handle
    */
@@ -98,8 +103,13 @@ export class DiscordBot {
     this.logLevel = config?.logLevel ?? LogLevel.Error
     this.log = new Logger({ level: this.logLevel, isSilent: this.isSilent })
 
-    this.handledCommands = []
-    this.handledEvents = defaultHandledEvents(this.log, this.handledCommands)
+    this.handledButtons = new Collection()
+    this.handledCommands = new Collection()
+    this.handledEvents = defaultHandledEvents(
+      this.log,
+      this.handledCommands,
+      this.handledButtons,
+    )
   }
 
   /**
@@ -133,11 +143,27 @@ export class DiscordBot {
    * @param handlers - List of slash commands handlers.
    */
   public addSlashCommands(handlers: readonly DiscordBotCommandHandler[]) {
-    this.handledCommands = [...this.handledCommands, ...handlers]
+    for (const handler of handlers) {
+      this.handledCommands.set(handler.command.name, handler)
+    }
+
     this.log.debug(
       `Bot now handles ${pluralizeString({
-        count: this.handledCommands.length,
+        count: this.handledCommands.size,
         singular: 'slash command',
+      })}...`,
+    )
+  }
+
+  public addButtonActions(handlers: readonly DiscordBotButtonActionHandler[]) {
+    for (const handler of handlers) {
+      this.handledButtons.set(handler.name, handler)
+    }
+
+    this.log.debug(
+      `Bot now handles ${pluralizeString({
+        count: this.handledButtons.size,
+        singular: 'button action',
       })}...`,
     )
   }
@@ -146,7 +172,7 @@ export class DiscordBot {
    * Deploy slash commands to Discord's API. Deploys globally if `NODE_ENV` is set to `production`, otherwise deploys to the guild specified in `guildId`.
    */
   private async deploySlashCommands() {
-    if (this.handledCommands.length === 0) {
+    if (this.handledCommands.size === 0) {
       return
     }
 
@@ -158,10 +184,10 @@ export class DiscordBot {
 
     const discordAPI = new REST({ version: '10' }).setToken(this.token)
 
-    if (isProductionEnvironment) {
+    if (isProductionEnvironment()) {
       this.log.debug(
         `Deploying ${pluralizeString({
-          count: this.handledCommands.length,
+          count: this.handledCommands.size,
           singular: 'slash command',
         })} globally...`,
       )
@@ -170,7 +196,7 @@ export class DiscordBot {
           return handler.command.toJSON()
         }),
       })
-    } else if (isDevelopmentEnvironment) {
+    } else if (isDevelopmentEnvironment()) {
       if (!this.guildId) {
         this.log.error('No Discord guild ID provided. Aborting...')
 
@@ -179,7 +205,7 @@ export class DiscordBot {
 
       this.log.debug(
         `Deploying ${pluralizeString({
-          count: this.handledCommands.length,
+          count: this.handledCommands.size,
           singular: 'guild slash command',
         })}...`,
       )

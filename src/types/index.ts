@@ -1,4 +1,5 @@
 import type {
+  ButtonInteraction,
   ClientEvents,
   CommandInteraction,
   SlashCommandBuilder,
@@ -54,6 +55,20 @@ export interface DiscordBotCommandHandler {
    */
   readonly callback: (
     interaction: CommandInteraction,
+    metadata?: InteractionMetadata,
+  ) => void | Promise<void>
+}
+
+export interface DiscordBotButtonActionHandler {
+  /**
+   * Button name which is also present in the button's custom ID.
+   */
+  readonly name: string
+  /**
+   * Function that will be execute once the button is clicked with aditionnal data if needed.
+   */
+  readonly callback: (
+    interaction: ButtonInteraction,
     metadata?: InteractionMetadata,
   ) => void | Promise<void>
 }

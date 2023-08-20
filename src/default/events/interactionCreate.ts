@@ -1,4 +1,9 @@
-import type { BaseInteraction } from 'discord.js'
+import type {
+  BaseInteraction,
+  ButtonInteraction,
+  Collection,
+  CommandInteraction,
+} from 'discord.js'
 import { Events } from 'discord.js'
 
 import type { Logger } from '../../class/index.js'
@@ -8,14 +13,64 @@ import {
   randomString,
 } from '../../misc/index.js'
 import type {
+  DiscordBotButtonActionHandler,
   DiscordBotCommandHandler,
   DiscordBotEventHandler,
   InteractionMetadata,
 } from '../../types/index.js'
 
+const handleCommand = async (
+  interaction: CommandInteraction,
+  metadata: InteractionMetadata,
+  commands: Collection<string, DiscordBotCommandHandler>,
+  log: Logger,
+) => {
+  const { commandName, options } = interaction
+  const commandArguments = Object.fromEntries(
+    options.data.map(({ name, value }) => {
+      return [name, value]
+    }),
+  )
+
+  Object.assign(metadata, { commandName, commandArguments })
+  Object.freeze(metadata)
+
+  const promptedArguments = Object.entries(commandArguments).map(
+    ([key, value]) => {
+      return `${key}: ${prettifyVariable(value)}`
+    },
+  )
+
+  log.info(
+    `Slash command ${prettifyVariable(metadata.requestId)} - ${
+      metadata.commandName
+    } invoked${promptedArguments.length > 0 ? ' with ' : ''}${prettifyList(
+      promptedArguments,
+    )}.`,
+  )
+
+  const command = commands.get(metadata.commandName as string)
+
+  await command?.callback(interaction, metadata)
+}
+
+const handleButton = async (
+  interaction: ButtonInteraction,
+  metadata: InteractionMetadata,
+  buttons: Collection<string, DiscordBotButtonActionHandler>,
+  log: Logger,
+) => {
+  log.info(metadata)
+
+  const button = buttons.get(interaction.customId)
+
+  await button?.callback(interaction, metadata)
+}
+
 export const interactionCreate = (
   log: Logger,
-  commands: readonly DiscordBotCommandHandler[],
+  commands: Collection<string, DiscordBotCommandHandler>,
+  buttons: Collection<string, DiscordBotButtonActionHandler>,
 ): DiscordBotEventHandler<Events.InteractionCreate> => {
   return {
     name: Events.InteractionCreate,
@@ -27,40 +82,9 @@ export const interactionCreate = (
       }
 
       if (interaction.isCommand()) {
-        const { commandName, options } = interaction
-        const commandArguments = Object.fromEntries(
-          options.data.map(({ name, value }) => {
-            return [name, value]
-          }),
-        )
-
-        Object.assign(metadata, { commandName, commandArguments })
-        Object.freeze(metadata)
-
-        const promptedArguments = Object.entries(commandArguments).map(
-          ([key, value]) => {
-            return `${key}: ${prettifyVariable(value)}`
-          },
-        )
-
-        log.info(
-          `Slash command ${prettifyVariable(metadata.requestId)} - ${
-            metadata.commandName
-          } invoked with ${prettifyList(promptedArguments)}.`,
-        )
-
-        const command = commands.find((handler) => {
-          return handler.command.name === metadata.commandName
-        })
-
-        await command?.callback(interaction, metadata)
+        await handleCommand(interaction, metadata, commands, log)
       } else if (interaction.isButton()) {
-        const { customId } = interaction
-
-        Object.assign(metadata, { customId })
-        Object.freeze(metadata)
-
-        log.info(metadata)
+        await handleButton(interaction, metadata, buttons, log)
       }
     },
   }
