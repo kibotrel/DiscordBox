@@ -1,30 +1,14 @@
 import chalk from 'chalk'
 
-/**
- * Capitalizes the first letter of a string.
- * @param string - The string to capitalize.
- * @returns The capitalized string.
- */
 export const capitalizeString = (string: string) => {
   return string.charAt(0).toUpperCase() + string.slice(1)
 }
 
-export interface PluralizeStringOptions {
-  /**
-   * The number of items.
-   */
-  readonly count: number
-  /**
-   *  The singular form of the word.
-   */
-  readonly singular: string
-  /**
-   *  The optional plural form of the word if it's irregular.
-   */
-  readonly plural?: string
-}
-
-export const pluralizeString = (options: PluralizeStringOptions) => {
+export const pluralizeString = (options: {
+  count: number
+  singular: string
+  plural?: string
+}) => {
   const plural = options.plural ?? `${options.singular}s`
 
   return options.count === 1
@@ -32,6 +16,9 @@ export const pluralizeString = (options: PluralizeStringOptions) => {
     : `${options.count.toLocaleString('en-US')} ${plural}`
 }
 
+/**
+ * Transform a variable into a colored type based string.
+ */
 export const prettifyVariable = (
   variable: string | number | boolean | undefined,
 ) => {
@@ -54,6 +41,9 @@ export const prettifyVariable = (
   }
 }
 
+/**
+ * Transform array of strings into a human readable list.
+ */
 export const prettifyList = (list: readonly string[]) => {
   const formatter = new Intl.ListFormat('en-GB', {
     style: 'long',

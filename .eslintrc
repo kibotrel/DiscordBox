@@ -81,7 +81,9 @@
       }
     ],
     "import/prefer-default-export": "off",
+    "jsdoc/require-param": "off",
     "jsdoc/require-param-type": "off",
+    "jsdoc/require-returns": "off",
     "jsdoc/require-returns-type": "off",
     "line-comment-position": ["error", { "position": "above" }],
     "linebreak-style": ["error", "unix"],
@@ -191,6 +193,7 @@
     "tsdoc/syntax": "warn",
     "unicorn/filename-case": ["error", { "case": "camelCase" }],
     "unicorn/no-nested-ternary": "off",
+    "unicorn/no-object-as-default-parameter": "off",
     "unicorn/number-literal-case": "off",
     "unicorn/prefer-logical-operator-over-ternary": "off",
     "unicorn/prevent-abbreviations": [
