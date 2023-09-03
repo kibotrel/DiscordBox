@@ -16,7 +16,7 @@ export interface EventHandler<
 export interface InteractionMetadata {
   readonly requestId: string
   readonly userId: string
-  channelId: string
+  readonly channelId: string
   readonly commandName?: string
   readonly commandArguments?: Record<string, unknown>
   readonly actionName?: string
