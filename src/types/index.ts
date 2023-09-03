@@ -21,6 +21,7 @@ export interface InteractionMetadata {
   readonly commandArguments?: Record<string, unknown>
   readonly actionName?: string
   readonly selectedOptions?: string[]
+  readonly modalFields?: DiscordJS.Collection<string, string>
 }
 
 export type InteractionTypes =
@@ -28,6 +29,7 @@ export type InteractionTypes =
   | DiscordJS.ChannelSelectMenuInteraction
   | DiscordJS.CommandInteraction
   | DiscordJS.MentionableSelectMenuInteraction
+  | DiscordJS.ModalSubmitInteraction
   | DiscordJS.RoleSelectMenuInteraction
   | DiscordJS.StringSelectMenuInteraction
   | DiscordJS.UserSelectMenuInteraction
