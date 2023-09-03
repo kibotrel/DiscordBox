@@ -16,9 +16,6 @@ export const pluralizeString = (options: {
     : `${options.count.toLocaleString('en-US')} ${plural}`
 }
 
-/**
- * Transform a variable into a colored type based string.
- */
 export const prettifyVariable = (
   variable: string | number | boolean | undefined,
 ) => {
@@ -41,14 +38,31 @@ export const prettifyVariable = (
   }
 }
 
-/**
- * Transform array of strings into a human readable list.
- */
-export const prettifyList = (list: readonly string[]) => {
+export const humanReadableList = (list: readonly string[]) => {
   const formatter = new Intl.ListFormat('en-GB', {
     style: 'long',
     type: 'conjunction',
   })
 
   return formatter.format(list)
+}
+
+export const prettifyArray = (
+  array: ReadonlyArray<string | number | boolean | undefined>,
+) => {
+  return humanReadableList(
+    array.map((value) => {
+      return prettifyVariable(value)
+    }),
+  )
+}
+
+export const prettifyObject = (
+  object: Record<string, string | number | boolean | undefined>,
+) => {
+  return humanReadableList(
+    Object.entries(object).map(([key, value]) => {
+      return `${key}: ${prettifyVariable(value)}`
+    }),
+  )
 }
