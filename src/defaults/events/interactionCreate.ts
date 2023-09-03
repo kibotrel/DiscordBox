@@ -20,18 +20,12 @@ const handleCommand = async (
   Object.assign(metadata, { commandName, commandArguments })
   Object.freeze(metadata)
 
-  const promptedArguments = Object.entries(commandArguments).map(
-    ([key, value]) => {
-      return `${key}: ${Misc.prettifyVariable(value)}`
-    },
-  )
-
   log.info(
     `Slash command ${Misc.prettifyVariable(metadata.requestId)} - ${
       metadata.commandName
-    } invoked${promptedArguments.length > 0 ? ' with ' : ''}${Misc.prettifyList(
-      promptedArguments,
-    )}.`,
+    } invoked${
+      Object.keys(commandArguments).length > 0 ? ' with ' : ''
+    }${Misc.prettifyObject(commandArguments)}.`,
   )
 
   const command = actions.get(metadata.commandName as string)
@@ -69,7 +63,7 @@ const handleSelectMenu = async (
   log: Classes.Logger,
 ) => {
   /*
-   * Need further investigation on how to handle multiple select menus.
+   * @TODO: Need further investigation on how to handle multiple select menus.
    * It shouldn't be possible to handle multiple choices that trigger different actions.
    * at once.
    */
@@ -86,7 +80,42 @@ const handleSelectMenu = async (
   log.info(
     `Select menu ${Misc.prettifyVariable(metadata.requestId)} - ${
       metadata.actionName
-    } selected.`,
+    } called with ${Misc.prettifyArray(metadata.selectedOptions as string[])}.`,
+  )
+
+  const action = actions.get(actionName)
+
+  await action?.callback(interaction, metadata)
+}
+
+const handleModal = async (
+  interaction: DiscordJS.ModalSubmitInteraction,
+  metadata: Types.InteractionMetadata,
+  actions: DiscordJS.Collection<string, Types.InteractionHandler>,
+  log: Classes.Logger,
+) => {
+  const {
+    customId,
+    fields: { fields },
+  } = interaction
+  const [, actionName, additionalData] = customId.split(':')
+  const modalFields = new DiscordJS.Collection<string, string>(
+    Array.from(fields, ([key, value]) => {
+      return [key, value.value as string]
+    }),
+  )
+
+  Object.assign(metadata, {
+    actionName,
+    additionalData,
+    modalFields,
+  })
+  Object.freeze(metadata)
+
+  log.info(
+    `Modal ${Misc.prettifyVariable(metadata.requestId)} - ${
+      metadata.actionName
+    } submitted with ${Misc.prettifyObject(Object.fromEntries(modalFields))}.`,
   )
 
   const action = actions.get(actionName)
@@ -101,18 +130,42 @@ export const interactionCreate = (
   return {
     name: DiscordJS.Events.InteractionCreate,
     callback: async (interaction: DiscordJS.BaseInteraction) => {
+      /*
+       * @TODO: Add a property for previous request ID to be able to deeply track the request.
+       * It will be found in 4th section of interaction.customId.
+       */
       const metadata: Types.InteractionMetadata = {
         requestId: Misc.randomString(),
         userId: interaction.user?.id as string,
         channelId: interaction.channelId as string,
       }
 
-      if (interaction.isCommand()) {
-        await handleCommand(interaction, metadata, actions, log)
-      } else if (interaction.isButton()) {
-        await handleButton(interaction, metadata, actions, log)
-      } else if (interaction.isAnySelectMenu()) {
-        await handleSelectMenu(interaction, metadata, actions, log)
+      try {
+        if (interaction.isCommand()) {
+          await handleCommand(interaction, metadata, actions, log)
+        } else if (interaction.isButton()) {
+          await handleButton(interaction, metadata, actions, log)
+        } else if (interaction.isAnySelectMenu()) {
+          await handleSelectMenu(interaction, metadata, actions, log)
+        } else if (interaction.isModalSubmit()) {
+          await handleModal(interaction, metadata, actions, log)
+        } else {
+          /*
+           * @TODO: Create a custom error class to handle internal errors with at least:
+           * - An error code.
+           * - A stack trace.
+           */
+          throw new Error(
+            `Unknown interaction type (${interaction.type}) received.`,
+          )
+        }
+      } catch (error) {
+        /*
+         * @TODO: Find a proper system to handle errors with two main goals:
+         * - Log the error in the console (with request id).
+         * - Send a message to the user that triggered the error.
+         */
+        console.log(error)
       }
     },
   }
