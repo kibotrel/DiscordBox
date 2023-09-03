@@ -8,9 +8,9 @@ import * as Classes from './index.js'
 
 export class DiscordBot {
   public readonly client: DiscordJS.Client
-  public readonly clientId?: DiscordJS.Snowflake
+  public readonly clientId?: DiscordJS.Snowflake | undefined
   public readonly gatewayIntents: readonly DiscordJS.GatewayIntentBits[]
-  public readonly guildId?: DiscordJS.Snowflake
+  public readonly guildId?: DiscordJS.Snowflake | undefined
   public handledInteractions: DiscordJS.Collection<
     string,
     Types.InteractionHandler
@@ -25,16 +25,16 @@ export class DiscordBot {
     config: {
       token: string
       gatewayIntents?: readonly DiscordJS.GatewayIntentBits[]
-      clientId?: DiscordJS.Snowflake
-      guildId?: DiscordJS.Snowflake
+      clientId?: DiscordJS.Snowflake | undefined
+      guildId?: DiscordJS.Snowflake | undefined
       isSilent?: boolean
       logLevel?: Types.LogLevel
     } = { token: '' },
   ) {
     this.gatewayIntents = config.gatewayIntents ?? Defaults.gatewayIntents
     this.client = new DiscordJS.Client({ intents: this.gatewayIntents })
-    this.clientId = config.clientId as DiscordJS.Snowflake
-    this.guildId = config.guildId as DiscordJS.Snowflake
+    this.clientId = config.clientId
+    this.guildId = config.guildId
     this.token = config.token
 
     this.isSilent = config.isSilent ?? false
