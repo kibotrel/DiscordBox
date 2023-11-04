@@ -14,14 +14,16 @@ export interface EventHandler<
 }
 
 export interface InteractionMetadata {
+  readonly channelId: string
   readonly requestId: string
   readonly userId: string
-  readonly channelId: string
-  readonly commandName?: string
-  readonly commandArguments?: Record<string, unknown>
   readonly actionName?: string
-  readonly selectedOptions?: string[]
+  readonly additionalData?: string
+  readonly commandArguments?: Record<string, unknown>
+  readonly commandName?: string
   readonly modalFields?: DiscordJS.Collection<string, string>
+  readonly previousRequestId?: string
+  readonly selectedOptions?: string[]
 }
 
 export type InteractionTypes =

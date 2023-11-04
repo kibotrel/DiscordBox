@@ -40,15 +40,17 @@ const handleButton = async (
   log: Classes.Logger,
 ) => {
   const { customId } = interaction
-  const [, actionName, additionalData] = customId.split(':')
+  const [, actionName, previousRequestId, additionalData] = customId.split(':')
 
-  Object.assign(metadata, { actionName, additionalData })
+  Object.assign(metadata, { actionName, previousRequestId, additionalData })
   Object.freeze(metadata)
 
   log.info(
-    `Button ${Misc.prettifyVariable(metadata.requestId)} - ${
-      metadata.actionName
-    } clicked.`,
+    `Button ${Misc.prettifyVariable(metadata.requestId)}${
+      metadata?.previousRequestId
+        ? ` (from ${Misc.prettifyVariable(metadata.previousRequestId)}) `
+        : ' '
+    }- ${metadata.actionName} clicked.`,
   )
 
   const button = actions.get(actionName)
@@ -68,19 +70,24 @@ const handleSelectMenu = async (
    * at once.
    */
   const { customId, values } = interaction
-  const [, actionName, additionalData] = customId.split(':')
+  const [, actionName, previousRequestId, additionalData] = customId.split(':')
 
   Object.assign(metadata, {
     actionName,
     additionalData,
+    previousRequestId,
     selectedOptions: values ?? [],
   })
   Object.freeze(metadata)
 
   log.info(
-    `Select menu ${Misc.prettifyVariable(metadata.requestId)} - ${
-      metadata.actionName
-    } called with ${Misc.prettifyArray(metadata.selectedOptions as string[])}.`,
+    `Select menu ${Misc.prettifyVariable(metadata.requestId)}${
+      metadata?.previousRequestId
+        ? ` (from ${Misc.prettifyVariable(metadata.previousRequestId)}) `
+        : ' '
+    }- ${metadata.actionName} called with ${Misc.prettifyArray(
+      metadata.selectedOptions as string[],
+    )}.`,
   )
 
   const action = actions.get(actionName)
@@ -98,7 +105,7 @@ const handleModal = async (
     customId,
     fields: { fields },
   } = interaction
-  const [, actionName, additionalData] = customId.split(':')
+  const [, actionName, previousRequestId, additionalData] = customId.split(':')
   const modalFields = new DiscordJS.Collection<string, string>(
     Array.from(fields, ([key, value]) => {
       return [key, value.value as string]
@@ -109,13 +116,18 @@ const handleModal = async (
     actionName,
     additionalData,
     modalFields,
+    previousRequestId,
   })
   Object.freeze(metadata)
 
   log.info(
-    `Modal ${Misc.prettifyVariable(metadata.requestId)} - ${
-      metadata.actionName
-    } submitted with ${Misc.prettifyObject(Object.fromEntries(modalFields))}.`,
+    `Modal ${Misc.prettifyVariable(metadata.requestId)}${
+      metadata?.previousRequestId
+        ? ` (from ${Misc.prettifyVariable(metadata.previousRequestId)}) `
+        : ' '
+    }- ${metadata.actionName}submitted with ${Misc.prettifyObject(
+      Object.fromEntries(modalFields),
+    )}.`,
   )
 
   const action = actions.get(actionName)
