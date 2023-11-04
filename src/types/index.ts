@@ -67,3 +67,10 @@ export enum LogLevel {
    */
   Debug = 'debug',
 }
+
+export interface CustomIdParts {
+  readonly actionName: string
+  readonly uniqueId?: string
+  readonly previousRequestId?: string
+  readonly additionalData?: string
+}
