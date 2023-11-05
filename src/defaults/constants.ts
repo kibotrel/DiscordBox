@@ -5,10 +5,22 @@ export const gatewayIntents: readonly DiscordJS.GatewayIntentBits[] = [
   DiscordJS.GatewayIntentBits.GuildMessages,
 ]
 
-export const buttonActionName = 'noAction'
+export enum ActionNames {
+  None = 'none',
+}
 
 export const buttonComponentProperties = {
   label: 'Placeholder',
-  customId: `:${buttonActionName}::`,
+  customId: `:${ActionNames.None}::`,
   style: DiscordJS.ButtonStyle.Primary,
+}
+
+export enum EmbedColors {
+  Error = 0xed_42_45,
+  Success = 0x00_ff_00,
+  Info = 0x2b_52_d1,
+}
+
+export enum Emojis {
+  Enveloppe = '✉️',
 }
