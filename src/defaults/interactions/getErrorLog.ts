@@ -1,4 +1,4 @@
-import fs from 'node:fs/promises'
+import fs from 'node:fs'
 import path from 'node:path'
 import url from 'node:url'
 
@@ -24,25 +24,34 @@ export const getErrorLog = (): Types.InteractionHandler => {
       await updatableInteraction.update({
         components: [
           new DiscordJS.ActionRowBuilder<ButtonBuilder>().addComponents(
-            Defaults.sendReportButton({ requestId: '', isDisabled: true }),
+            Defaults.sendReportButton({
+              requestId: '',
+              isDisabled: true,
+            }),
           ),
         ],
       })
 
       if (!fileName) {
         throw new Classes.InternalError(
-          'No file name provided in additional data.',
+          'No log file id provided in additional data.',
         )
       }
 
-      const filePath = path.join(logDirectory, `${fileName}.log`)
-      const fileContent = await fs.readFile(filePath, 'utf8')
+      const filePath = path.join(logDirectory, `${fileName}.ulog`)
+      const doFileExist = await fs.existsSync(filePath)
+
+      if (!doFileExist) {
+        throw new Classes.UnprocessableContentError(`Log file not found.`)
+      }
+
+      const fileContent = await fs.promises.readFile(filePath, 'utf8')
 
       await updatableInteraction.followUp({
         content: Misc.codeBlock(fileContent),
         ephemeral: true,
       })
-      await fs.unlink(filePath)
+      await fs.promises.unlink(filePath)
     },
   }
 }
