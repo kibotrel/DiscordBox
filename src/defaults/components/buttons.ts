@@ -35,7 +35,7 @@ export const customButtonBuilder = () => {
           button.toJSON() as DiscordJS.APIButtonComponentWithCustomId
         const [, actionName] = customId.split(':')
 
-        if (actionName === Defaults.buttonActionName) {
+        if (actionName === Defaults.ActionNames.None) {
           throw new Classes.PreconditionFailedError(
             Constants.ErrorMessages.NoActionInButton,
           )
@@ -90,4 +90,24 @@ export const customButtonBuilder = () => {
   }
 
   return builder
+}
+
+interface sendReportButtonOptions {
+  requestId: string
+  isDisabled?: boolean
+}
+
+export const sendReportButton = ({
+  requestId,
+  isDisabled = false,
+}: sendReportButtonOptions): DiscordJS.ButtonBuilder => {
+  return customButtonBuilder()
+    .setCustomId({
+      actionName: 'getErrorLog',
+      additionalData: requestId,
+    })
+    .setLabel('Send repport')
+    .setEmoji(Defaults.Emojis.Enveloppe)
+    .setDisabled(isDisabled)
+    .build()
 }
