@@ -1,6 +1,7 @@
 export enum ErrorMessages {
   LinkAndUrlInButton = 'If you set the style to Link, you must provide a URL.',
   NoActionInButton = 'You must attach an action to this button.',
+  InternalError = 'An internal error occured. Please contact the support.',
 }
 
 /**
