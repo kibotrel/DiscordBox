@@ -193,4 +193,21 @@ export class DiscordBot {
     this.deploySlashCommands()
     await this.client.login(this.token)
   }
+
+  public async sendDirectMessage(
+    userId: string,
+    message: string | DiscordJS.MessagePayload | DiscordJS.MessageCreateOptions,
+  ) {
+    const user = await this.client.users.fetch(userId)
+
+    await user.send(message)
+  }
+
+  public async deleteMessage(channelId: string, messageId: string) {
+    const channel = await this.client.channels.fetch(channelId)
+
+    if (channel?.isTextBased()) {
+      await channel.messages.delete(messageId)
+    }
+  }
 }
