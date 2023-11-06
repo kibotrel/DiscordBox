@@ -45,6 +45,7 @@ export class DiscordBot {
     })
 
     this.handledInteractions = new DiscordJS.Collection()
+    this.addGenericInteractions(Defaults.handledInteractions(this))
     this.handledEvents = Defaults.handledEvents(
       this.log,
       this.handledInteractions,
@@ -192,11 +193,4 @@ export class DiscordBot {
     this.deploySlashCommands()
     await this.client.login(this.token)
   }
-
-  /*
-   * @TODO: Add various quality of life methods such as:
-   * - delete a message.
-   * - edit a message.
-   * - send a message.
-   */
 }
