@@ -6,7 +6,10 @@ export const gatewayIntents: readonly DiscordJS.GatewayIntentBits[] = [
 ]
 
 export enum ActionNames {
+  DeleteMessage = 'deleteMessage',
+  GetErrorLog = 'getErrorLog',
   None = 'none',
+  SendErrorReport = 'sendErrorReport',
 }
 
 export const buttonComponentProperties = {
