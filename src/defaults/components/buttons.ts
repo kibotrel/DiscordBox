@@ -92,22 +92,58 @@ export const customButtonBuilder = () => {
   return builder
 }
 
-interface sendReportButtonOptions {
-  requestId: string
+interface BaseButtonOptions {
   isDisabled?: boolean
+  label?: string
+  sourceRequestId: string
+  additionalData?: string
 }
 
 export const sendReportButton = ({
-  requestId,
   isDisabled = false,
-}: sendReportButtonOptions): DiscordJS.ButtonBuilder => {
+  sourceRequestId,
+}: BaseButtonOptions): DiscordJS.ButtonBuilder => {
   return customButtonBuilder()
     .setCustomId({
-      actionName: 'getErrorLog',
-      additionalData: requestId,
+      actionName: Defaults.ActionNames.SendErrorReport,
+      previousRequestId: sourceRequestId,
+      additionalData: sourceRequestId,
     })
     .setLabel('Send repport')
     .setEmoji(Defaults.Emojis.Enveloppe)
+    .setDisabled(isDisabled)
+    .build()
+}
+
+export const deleteMessageButton = ({
+  isDisabled = false,
+  label = '',
+  sourceRequestId,
+}: BaseButtonOptions): DiscordJS.ButtonBuilder => {
+  return customButtonBuilder()
+    .setCustomId({
+      actionName: Defaults.ActionNames.DeleteMessage,
+      previousRequestId: sourceRequestId,
+      additionalData: sourceRequestId,
+    })
+    .setStyle(DiscordJS.ButtonStyle.Danger)
+    .setLabel(label || 'Delete message')
+    .setDisabled(isDisabled)
+    .build()
+}
+
+export const getErrorLogButton = ({
+  isDisabled = false,
+  sourceRequestId,
+  additionalData = '',
+}: BaseButtonOptions): DiscordJS.ButtonBuilder => {
+  return customButtonBuilder()
+    .setCustomId({
+      actionName: Defaults.ActionNames.GetErrorLog,
+      previousRequestId: sourceRequestId,
+      additionalData: additionalData,
+    })
+    .setLabel('Stack trace')
     .setDisabled(isDisabled)
     .build()
 }
