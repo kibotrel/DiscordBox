@@ -15,7 +15,7 @@ const logDirectory = path.join(dirname, '../../../logs')
 
 export const getErrorLog = (): Types.InteractionHandler => {
   return {
-    action: 'getErrorLog',
+    action: Defaults.ActionNames.GetErrorLog,
     callback: async (interaction, metadata) => {
       const updatableInteraction =
         interaction as DiscordJS.MessageComponentInteraction
@@ -24,8 +24,12 @@ export const getErrorLog = (): Types.InteractionHandler => {
       await updatableInteraction.update({
         components: [
           new DiscordJS.ActionRowBuilder<ButtonBuilder>().addComponents(
-            Defaults.sendReportButton({
-              requestId: '',
+            Defaults.deleteMessageButton({
+              sourceRequestId: metadata?.previousRequestId as string,
+              isDisabled: false,
+            }),
+            Defaults.getErrorLogButton({
+              sourceRequestId: '',
               isDisabled: true,
             }),
           ),
@@ -38,7 +42,7 @@ export const getErrorLog = (): Types.InteractionHandler => {
         )
       }
 
-      const filePath = path.join(logDirectory, `${fileName}.ulog`)
+      const filePath = path.join(logDirectory, `${fileName}.log`)
       const doFileExist = await fs.existsSync(filePath)
 
       if (!doFileExist) {
