@@ -21,6 +21,7 @@ export interface InteractionMetadata {
   readonly additionalData?: string
   readonly commandArguments?: Record<string, unknown>
   readonly commandName?: string
+  readonly messageId?: string
   readonly modalFields?: DiscordJS.Collection<string, string>
   readonly previousRequestId?: string
   readonly selectedOptions?: string[]
