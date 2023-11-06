@@ -39,7 +39,7 @@ export const sendErrorReport = (
         ],
       })
       await updatableInteraction.followUp({
-        embeds: [Defaults.sentReportFollowUpEmbed(metadata?.userId as string)],
+        embeds: [Defaults.sentReportFollowUpEmbed(discordBot.supportUserId)],
         ephemeral: true,
       })
     },

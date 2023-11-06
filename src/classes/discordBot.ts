@@ -19,6 +19,7 @@ export class DiscordBot {
   public readonly log: Classes.Logger
   public readonly logLevel: Types.LogLevel
   public readonly isSilent: boolean
+  public readonly supportUserId: string
   private readonly token: string
 
   constructor(
@@ -29,8 +30,10 @@ export class DiscordBot {
       guildId?: DiscordJS.Snowflake | undefined
       isSilent?: boolean
       logLevel?: Types.LogLevel
+      supportUserId?: string
     } = { token: '' },
   ) {
+    this.supportUserId = config.supportUserId ?? ''
     this.gatewayIntents = config.gatewayIntents ?? Defaults.gatewayIntents
     this.client = new DiscordJS.Client({ intents: this.gatewayIntents })
     this.clientId = config.clientId
@@ -185,6 +188,14 @@ export class DiscordBot {
   public async start() {
     if (!this.token) {
       this.log.error('No Discord token provided. Aborting...')
+
+      return
+    }
+
+    if (!this.supportUserId) {
+      this.log.error(
+        'No User ID to send error reports to provided. Aborting...',
+      )
 
       return
     }
