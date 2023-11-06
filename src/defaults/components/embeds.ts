@@ -25,3 +25,26 @@ export const errorEmbed = (errorMessage: string): DiscordJS.EmbedBuilder => {
 
   return embed
 }
+
+export const sentReportFollowUpEmbed = (
+  toUserId: string,
+): DiscordJS.EmbedBuilder => {
+  return new DiscordJS.EmbedBuilder()
+    .setTitle('Report sent!')
+    .setColor(Defaults.EmbedColors.Info)
+    .setDescription(
+      `The encountered error details were sent to <@${toUserId}>. Thanks for your report.`,
+    )
+}
+
+export const errorReportEmbed = (
+  fromUserId: string,
+): DiscordJS.EmbedBuilder => {
+  return new DiscordJS.EmbedBuilder()
+    .setTitle('New error report!')
+    .setColor(Defaults.EmbedColors.Info)
+    .setDescription(
+      `An error occurred while processing a request from <@${fromUserId}>.`,
+    )
+    .setTimestamp()
+}

@@ -1,8 +1,18 @@
+import fs from 'node:fs/promises'
+import path from 'node:path'
+import url from 'node:url'
+
+import type { ButtonBuilder } from 'discord.js'
 import DiscordJS from 'discord.js'
 
-import type * as Classes from '../../classes/index.js'
+import * as Classes from '../../classes/index.js'
+import * as Constants from '../../constants/index.js'
+import * as Defaults from '../../defaults/index.js'
 import * as Misc from '../../miscs/index.js'
 import type * as Types from '../../types/index.js'
+
+const dirname = url.fileURLToPath(new URL('.', import.meta.url))
+const logDirectory = path.join(dirname, '../../../logs')
 
 const handleCommand = async (
   interaction: DiscordJS.CommandInteraction,
@@ -39,10 +49,19 @@ const handleButton = async (
   actions: DiscordJS.Collection<string, Types.InteractionHandler>,
   log: Classes.Logger,
 ) => {
-  const { customId } = interaction
+  const {
+    customId,
+    message: { id, channelId },
+  } = interaction
   const [, actionName, previousRequestId, additionalData] = customId.split(':')
 
-  Object.assign(metadata, { actionName, previousRequestId, additionalData })
+  Object.assign(metadata, {
+    actionName,
+    previousRequestId,
+    additionalData,
+    messageId: id,
+    channelId,
+  })
   Object.freeze(metadata)
 
   log.info(
@@ -69,7 +88,11 @@ const handleSelectMenu = async (
    * It shouldn't be possible to handle multiple choices that trigger different actions.
    * at once.
    */
-  const { customId, values } = interaction
+  const {
+    customId,
+    values,
+    message: { id, channelId },
+  } = interaction
   const [, actionName, previousRequestId, additionalData] = customId.split(':')
 
   Object.assign(metadata, {
@@ -77,6 +100,8 @@ const handleSelectMenu = async (
     additionalData,
     previousRequestId,
     selectedOptions: values ?? [],
+    messageId: id,
+    channelId,
   })
   Object.freeze(metadata)
 
@@ -162,22 +187,56 @@ export const interactionCreate = (
         } else if (interaction.isModalSubmit()) {
           await handleModal(interaction, metadata, actions, log)
         } else {
-          /*
-           * @TODO: Create a custom error class to handle internal errors with at least:
-           * - An error code.
-           * - A stack trace.
-           */
-          throw new Error(
+          throw new Classes.InternalError(
             `Unknown interaction type (${interaction.type}) received.`,
           )
         }
-      } catch (error) {
-        /*
-         * @TODO: Find a proper system to handle errors with two main goals:
-         * - Log the error in the console (with request id).
-         * - Send a message to the user that triggered the error.
-         */
-        console.log(error)
+      } catch (error: unknown) {
+        const faultyInteraction = interaction as Types.InteractionTypes
+        let errorMessage = ''
+
+        if (error instanceof Error) {
+          errorMessage =
+            error instanceof Classes.GenericError &&
+            !(error instanceof Classes.InternalError)
+              ? error.message
+              : Constants.ErrorMessages.InternalError
+
+          log.error(
+            `Interraction ${Misc.prettifyVariable(metadata.requestId)} - ${
+              error.message
+            }`,
+          )
+
+          await fs.mkdir(logDirectory, { recursive: true })
+          await fs.writeFile(
+            path.join(logDirectory, `${metadata.requestId}.log`),
+            error.stack as string,
+            'utf8',
+          )
+        } else {
+          errorMessage =
+            typeof error === 'string'
+              ? error
+              : Constants.ErrorMessages.InternalError
+          console.log(error)
+        }
+
+        const message = {
+          embeds: [Defaults.errorEmbed(errorMessage)],
+          ephemeral: true,
+          components: [
+            new DiscordJS.ActionRowBuilder<ButtonBuilder>().addComponents(
+              Defaults.sendReportButton({
+                sourceRequestId: metadata.requestId,
+              }),
+            ),
+          ],
+        }
+
+        await (faultyInteraction.replied
+          ? faultyInteraction.followUp(message)
+          : faultyInteraction.reply(message))
       }
     },
   }
