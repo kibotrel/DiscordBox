@@ -167,10 +167,6 @@ export const interactionCreate = (
   return {
     name: DiscordJS.Events.InteractionCreate,
     callback: async (interaction: DiscordJS.BaseInteraction) => {
-      /*
-       * @TODO: Add a property for previous request ID to be able to deeply track the request.
-       * It will be found in 4th section of interaction.customId.
-       */
       const metadata: Types.InteractionMetadata = {
         requestId: Misc.randomString(),
         userId: interaction.user?.id as string,
