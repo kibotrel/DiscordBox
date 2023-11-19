@@ -4,6 +4,7 @@ node_modules
 *.eslintcache
 dist
 coverage
+pnpm-lock.yaml
 
 # Config files
 # -----------------------------------
