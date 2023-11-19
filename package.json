@@ -6,7 +6,7 @@
     "discord.js": "14.12.1",
     "dotenv": "16.3.1"
   },
-  "description": "framework for discord bots",
+  "description": "framework for discord bots written in typescript",
   "devDependencies": {
     "@commitlint/cli": "17.7.1",
     "@commitlint/config-conventional": "17.7.0",
