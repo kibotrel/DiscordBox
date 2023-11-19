@@ -50,7 +50,7 @@
     "discordjs",
     "framework"
   ],
-  "main": "dist/index.js",
+  "main": "dist/src/index.js",
   "name": "discordbox",
   "repository": {
     "type": "git",
@@ -69,6 +69,6 @@
     "version": "pnpm run format && git add -A src"
   },
   "type": "module",
-  "types": "dist/index.d.ts",
+  "types": "dist/src/index.d.ts",
   "version": "0.0.1"
 }
