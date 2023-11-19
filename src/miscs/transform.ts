@@ -1,7 +1,7 @@
 import chalk from 'chalk'
 
 export const capitalizeString = (string: string) => {
-  return string.charAt(0).toUpperCase() + string.slice(1)
+  return string.charAt(0).toUpperCase() + string.slice(1).toLocaleLowerCase()
 }
 
 export const pluralizeString = (options: {
@@ -11,14 +11,16 @@ export const pluralizeString = (options: {
 }) => {
   const plural = options.plural ?? `${options.singular}s`
 
+  if (options.count < 0) {
+    throw new RangeError('Count cannot be negative')
+  }
+
   return options.count === 1
     ? `${options.count} ${options.singular}`
     : `${options.count.toLocaleString('en-US')} ${plural}`
 }
 
-export const prettifyVariable = (
-  variable: string | number | boolean | undefined,
-) => {
+export const prettifyVariable = (variable: unknown) => {
   switch (typeof variable) {
     case 'string': {
       return chalk.green(`'${variable}'`)
