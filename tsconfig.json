@@ -15,7 +15,7 @@
     "incremental": true,
     "isolatedModules": true,
     "lib": ["ESNext", "DOM"],
-    "module": "ESNext",
+    "module": "NodeNext",
     "moduleResolution": "nodenext",
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": true,
@@ -34,7 +34,8 @@
     "strictFunctionTypes": true,
     "strictNullChecks": true,
     "strictPropertyInitialization": true,
-    "target": "ESNext"
+    "target": "ESNext",
+    "types": ["vitest/globals"]
   },
   "exclude": ["**/node_modules/**", "**/*/lib", "**/*/dist"],
   "include": ["src/**/*", "vitest.config.ts"],
