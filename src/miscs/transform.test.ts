@@ -7,7 +7,6 @@ import {
   capitalizeString,
   humanReadableList,
   pluralizeString,
-  prettifyVariable,
 } from './transform.js'
 
 describe('capitalizeString', () => {
@@ -57,36 +56,6 @@ describe('pluralizeString', () => {
     expect(() => {
       pluralizeString({ count: -1, singular: 'test' })
     }).toThrow(RangeError)
-  })
-})
-
-describe('prettifyVariable', () => {
-  it('should return a green string if the variable is a string', () => {
-    expect(prettifyVariable('test')).toBe("\u001B[32m'test'\u001B[39m")
-  })
-
-  it('should return a yellow string if the variable is a number', () => {
-    expect(prettifyVariable(1)).toBe('\u001B[33m1\u001B[39m')
-  })
-
-  it('should return a cyan string if the variable is a boolean', () => {
-    expect(prettifyVariable(true)).toBe('\u001B[36mtrue\u001B[39m')
-  })
-
-  it('should return a gray string if the variable is undefined', () => {
-    expect(prettifyVariable(undefined)).toBe('\u001B[90mundefined\u001B[39m')
-  })
-
-  it('should return a gray string if the variable is null', () => {
-    expect(prettifyVariable(null)).toBe('\u001B[90mnull\u001B[39m')
-  })
-
-  it('should return a gray string if the variable is an object', () => {
-    expect(prettifyVariable({})).toBe('\u001B[90m[object Object]\u001B[39m')
-  })
-
-  it('should return a gray string if the variable is an array', () => {
-    expect(prettifyVariable([1, 2])).toBe('\u001B[90m1,2\u001B[39m')
   })
 })
 
