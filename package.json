@@ -43,7 +43,7 @@
     "dist/**/*"
   ],
   "homepage": "https://github.com/kibotrel/discordbox#readme",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "keywords": [
     "bot",
     "discord",
