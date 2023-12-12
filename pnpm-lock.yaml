@@ -9,8 +9,8 @@ dependencies:
     specifier: 5.3.0
     version: 5.3.0
   discord.js:
-    specifier: 14.12.1
-    version: 14.12.1
+    specifier: 14.14.1
+    version: 14.14.1
   dotenv:
     specifier: 16.3.1
     version: 16.3.1
@@ -1690,13 +1690,9 @@ packages:
     resolution: {integrity: sha512-o/dXNFfhBpYHpQFdT6FWzeO7pKc838QeeZ9d91CfVAtpr5XLK4B/zYxQbYgPdoMiTDvJfzcsLW5naXgmHGDNXw==}
     dev: false
 
-  /discord-api-types@0.37.63:
-    resolution: {integrity: sha512-WbEDWj/1JGCIC1oCMIC4z9XbYY8PrWpV5eqFFQymJhJlHMqgIjqoYbU812X5oj5cwbRrEh6Va4LNLumB2Nt6IQ==}
-    dev: false
-
-  /discord.js@14.12.1:
-    resolution: {integrity: sha512-gGjhTkauIPgFXxpBl0UZgyehrKhDe90cIS8Hn1xFBYQ63EuUAkKoUqRNmc/pcla6DD16s4cUz5tAbdSpXivnxw==}
-    engines: {node: '>=16.9.0'}
+  /discord.js@14.14.1:
+    resolution: {integrity: sha512-/hUVzkIerxKHyRKopJy5xejp4MYKDPTszAnpYxzVVv4qJYf+Tkt+jnT2N29PIPschicaEEpXwF2ARrTYHYwQ5w==}
+    engines: {node: '>=16.11.0'}
     dependencies:
       '@discordjs/builders': 1.7.0
       '@discordjs/collection': 1.5.3
@@ -1706,7 +1702,7 @@ packages:
       '@discordjs/ws': 1.0.2
       '@sapphire/snowflake': 3.5.1
       '@types/ws': 8.5.9
-      discord-api-types: 0.37.63
+      discord-api-types: 0.37.61
       fast-deep-equal: 3.1.3
       lodash.snakecase: 4.1.1
       tslib: 2.6.2
