@@ -8,9 +8,6 @@ export default defineConfig({
       '#src': './dist/src',
       '#test': './test',
     },
-    threads: true,
-    useAtomics: true,
-    isolate: true,
     coverage: {
       provider: 'v8',
       enabled: true,
