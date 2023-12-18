@@ -43,7 +43,7 @@ export interface InteractionHandler<
   /**
    * An instance of [SlashCommandBuilder](https://discordjs.guide/slash-commands/response-methods.html#command-response-methods) if the interaction is a command.
    */
-  readonly action: DiscordJS.SlashCommandBuilder | string
+  readonly action: Omit<DiscordJS.SlashCommandBuilder, "addSubcommand" | "addSubcommandGroup"> | string
   readonly callback: (
     interaction: InteractionType,
     metadata?: InteractionMetadata,
