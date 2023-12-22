@@ -3,8 +3,7 @@
   "bugs": "https://github.com/kibotrel/discordbox/issues",
   "dependencies": {
     "chalk": "5.3.0",
-    "discord.js": "14.14.1",
-    "dotenv": "16.3.1"
+    "discord.js": "14.14.1"
   },
   "description": "framework for discord bots written in typescript",
   "devDependencies": {
@@ -13,6 +12,7 @@
     "@typescript-eslint/eslint-plugin": "6.13.2",
     "@typescript-eslint/parser": "6.14.0",
     "@vitest/coverage-v8": "1.0.4",
+    "dotenv": "16.3.1",
     "eslint": "8.56.0",
     "eslint-config-prettier": "9.1.0",
     "eslint-import-resolver-alias": "1.1.2",
