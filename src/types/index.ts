@@ -49,10 +49,10 @@ export interface InteractionHandler<
         'addSubcommand' | 'addSubcommandGroup'
       >
     | string
-  readonly callback: (
+  callback(
     interaction: InteractionType,
     metadata?: InteractionMetadata,
-  ) => void | Promise<void>
+  ): void | Promise<void>
 }
 
 export enum LogLevel {
