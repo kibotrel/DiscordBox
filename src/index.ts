@@ -15,6 +15,7 @@ export {
   isObjectOrArray,
   isProductionEnvironment,
   isTestEnvironment,
+  objectWithCamelCaseKeys,
   pluralizeString,
   prettifyArray,
   prettifyObject,
