@@ -16,6 +16,7 @@ export {
   isProductionEnvironment,
   isTestEnvironment,
   millisecondsToTimeString,
+  objectWithCamelCaseKeys,
   pluralizeString,
   prettifyArray,
   prettifyObject,
