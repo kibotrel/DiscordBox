@@ -1,9 +1,15 @@
 import chalk from 'chalk'
 
+/*
+ * Makes the first letter of a string uppercase and the rest lowercase
+ */
 export const capitalizeString = (string: string) => {
   return string.charAt(0).toUpperCase() + string.slice(1).toLocaleLowerCase()
 }
 
+/*
+ * Handles pluralization of a string based on a count
+ */
 export const pluralizeString = (options: {
   count: number
   singular: string
@@ -67,4 +73,32 @@ export const prettifyObject = (
       return `${key}: ${prettifyVariable(value)}`
     }),
   )
+}
+
+/*
+ * Converts time expressed in milliseconds to a human-readable string
+ */
+export const millisecondsToTimeString = (milliseconds: number) => {
+  if (milliseconds < 0) {
+    throw new RangeError('Time cannot be negative')
+  }
+
+  const steps = [
+    { unit: 'd', divisor: 86_400_000, modulus: 0 },
+    { unit: 'h', divisor: 3_600_000, modulus: 24 },
+    { unit: 'min', divisor: 60_000, modulus: 60 },
+    { unit: 's', divisor: 1000, modulus: 60 },
+    { unit: 'ms', divisor: 1, modulus: 1000 },
+  ]
+  let timeString = ''
+
+  for (const { unit, divisor, modulus } of steps) {
+    const value = modulus
+      ? Math.floor(milliseconds / divisor) % modulus
+      : Math.floor(milliseconds / divisor)
+
+    timeString += value > 0 ? `${value}${unit} ` : ''
+  }
+
+  return timeString.trim() || '0ms'
 }

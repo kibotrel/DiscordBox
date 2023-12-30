@@ -15,6 +15,7 @@ export {
   isObjectOrArray,
   isProductionEnvironment,
   isTestEnvironment,
+  millisecondsToTimeString,
   pluralizeString,
   prettifyArray,
   prettifyObject,
