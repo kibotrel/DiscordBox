@@ -9,6 +9,7 @@ export {
 export {
   capitalizeString,
   codeBlock,
+  generateCustomId,
   getCurrentTimestamp,
   humanReadableList,
   isDevelopmentEnvironment,
