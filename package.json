@@ -27,7 +27,7 @@
     "eslint-plugin-sonarjs": "0.19.0",
     "eslint-plugin-tsdoc": "0.2.17",
     "eslint-plugin-unicorn": "49.0.0",
-    "eslint-plugin-vitest": "0.2.6",
+    "eslint-plugin-vitest": "0.3.20",
     "husky": "8.0.3",
     "nodemon": "3.0.1",
     "prettier": "3.1.1",
