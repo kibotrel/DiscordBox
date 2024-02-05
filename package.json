@@ -30,7 +30,7 @@
     "eslint-plugin-vitest": "0.3.20",
     "husky": "8.0.3",
     "nodemon": "3.0.2",
-    "prettier": "3.2.4",
+    "prettier": "3.2.5",
     "ts-node": "10.9.2",
     "typescript": "5.3.3",
     "vitest": "1.2.2"
