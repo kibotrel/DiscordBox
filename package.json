@@ -28,7 +28,7 @@
     "eslint-plugin-unicorn": "51.0.1",
     "eslint-plugin-vitest": "0.4.1",
     "husky": "9.0.11",
-    "nodemon": "3.0.2",
+    "nodemon": "3.1.0",
     "prettier": "3.2.5",
     "ts-node": "10.9.2",
     "typescript": "5.3.3",
