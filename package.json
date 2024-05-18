@@ -61,7 +61,7 @@
     "format": "prettier --write src/**/*.ts",
     "lint": "eslint src/**/*.ts --config .eslintrc",
     "postversion": "git push && git push --tags",
-    "prepare": "pnpm run build && pnpm husky install",
+    "prepare": "pnpm run build && pnpm husky",
     "prepublishOnly": "pnpm run test && pnpm run lint",
     "preversion": "pnpm run lint",
     "test": "vitest run",
