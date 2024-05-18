@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "allowJs": true,
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
     "allowSyntheticDefaultImports": true,
@@ -38,7 +39,7 @@
     "types": ["vitest/globals"]
   },
   "exclude": ["**/node_modules/**", "**/*/lib", "**/*/dist"],
-  "include": ["src/**/*", "vitest.config.ts"],
+  "include": ["src/**/*", "vitest.config.ts", "logTypescriptErrorLoader.js"],
   "ts-node": {
     "esm": true
   }
