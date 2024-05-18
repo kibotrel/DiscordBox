@@ -1,5 +1,5 @@
 import chalk from 'chalk'
-import DiscordJS from 'discord.js'
+import * as DiscordJS from 'discord.js'
 
 import type * as Classes from '../../classes/index.js'
 import type * as Types from '../../types/index.js'

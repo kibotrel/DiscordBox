@@ -1,4 +1,4 @@
-import type DiscordJS from 'discord.js'
+import type * as DiscordJS from 'discord.js'
 
 export interface EventHandler<
   Type extends keyof DiscordJS.ClientEvents = keyof DiscordJS.ClientEvents,

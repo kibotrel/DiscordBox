@@ -1,4 +1,4 @@
-import DiscordJS from 'discord.js'
+import * as DiscordJS from 'discord.js'
 
 import * as Constants from '../../constants/index.js'
 import * as Defaults from '../../defaults/index.js'
