@@ -3,7 +3,7 @@ import path from 'node:path'
 import url from 'node:url'
 
 import type { ButtonBuilder } from 'discord.js'
-import DiscordJS from 'discord.js'
+import * as DiscordJS from 'discord.js'
 
 import * as Classes from '../../classes/index.js'
 import * as Misc from '../../miscs/index.js'

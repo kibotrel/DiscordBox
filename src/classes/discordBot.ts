@@ -1,4 +1,4 @@
-import DiscordJS from 'discord.js'
+import * as DiscordJS from 'discord.js'
 
 import * as Defaults from '../defaults/index.js'
 import * as Misc from '../miscs/index.js'
@@ -65,7 +65,7 @@ export class DiscordBot {
 
     for (const { name, callback, once } of this.handledEvents) {
       if (!Object.values(DiscordJS.Events).includes(name as DiscordJS.Events)) {
-        this.log.warn(`Event ${name} does not exist. Skipping...`)
+        this.log.warn(`Event ${String(name)} does not exist. Skipping...`)
 
         continue
       }
