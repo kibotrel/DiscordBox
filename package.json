@@ -3,7 +3,7 @@
   "bugs": "https://github.com/kibotrel/discordbox/issues",
   "dependencies": {
     "chalk": "5.3.0",
-    "discord.js": "14.15.2"
+    "discord.js": "14.15.3"
   },
   "description": "framework for discord bots written in typescript",
   "devDependencies": {
